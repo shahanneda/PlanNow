@@ -1,0 +1,18 @@
+.account-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:100vh;
+}
+@media(max-width:768px){
+        .account-wrapper{
+                margin-top:10vh;
+        }
+}
+.login-button{
+        margin: 20px;
+}
+.react-bootstrap-table{
+  width: 100%;
+
+}
