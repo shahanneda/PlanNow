@@ -13,7 +13,7 @@ let db = null;
 let usersCollection = null;
 MongoClient.connect(url, function(err, dbtemp) {
 
-        var dbo = dbtemp.db("pointshark");
+        var dbo = dbtemp.db("NowPlan");
 
         db = dbo;
         dbo.createCollection("users", function(err, res) {

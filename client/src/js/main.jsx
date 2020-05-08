@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import PointShark from "./PointShark.jsx";
+import NowPlan from "./NowPlan.jsx";
 const wrapper = document.getElementById("container");
 
 ReactDOM.render(
         <div>
-                <PointShark url="http://216.71.213.85:7772"/>
+                <NowPlan url="http://216.71.213.85:7772"/>
         </div>
 , wrapper);
 

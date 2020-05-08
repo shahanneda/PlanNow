@@ -55,7 +55,7 @@ class CreateAccount extends Component {
 
         render(){
                 if(cookies.get('loggedIn') == 'true'){
-                        return(<Redirect to="/edit-points" /> );
+                        return(<Redirect to="/plan" /> );
                 }
                 if(this.state.goToLogin){
                         return(<Redirect to="/login" /> );
