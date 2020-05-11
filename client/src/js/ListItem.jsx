@@ -11,6 +11,12 @@ class ListItem extends Component{
     this.inputRef = React.createRef();
   }
 
+  componentDidMount(){
+    if(this.props.isFocused){
+      this.inputRef.current.focus();
+    }
+  }
+
   render(){
 
     return (

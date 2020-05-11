@@ -27,7 +27,7 @@ class PlanList extends Component{
     }
 
     newList[id].value = textValue; // instead of this have it put to database
-    this.setState({listItems: newList});
+    this.setState({listItems: newList, currentIdSelected: id},);
   }
 
   addNewListItem = () => {
@@ -36,15 +36,22 @@ class PlanList extends Component{
     newList[Date.now()] = {id:id, value:""}; // instead of this have it add to database and refresh
     this.setState({listItems:newList});
   }
+
   render(){
     return (
       <div>
-        {Object.keys(this.state.listItems).map( (item) =>  
-        <ListItem item={this.state.listItems[item]}  onChange={this.listItemOnChange}/> ) }
+        {Object.keys(this.state.listItems).map( (id) =>  
+        <ListItem 
+           item={this.state.listItems[id]}  
+           onChange={this.listItemOnChange} 
+           key={id} 
+           isFocused={id == this.state.currentIdSelected} 
+        />)}
+
 
         <ListItem item={{id: Date.now(), value:""}}  onChange={this.listItemOnChange}/>
 
-        <Button className="add-new-button" onClick={this.addNewListItem} > New </Button>
+        {/*<Button className="add-new-button" onClick={this.addNewListItem} > New </Button>*/}
       </div>
     );
   }
