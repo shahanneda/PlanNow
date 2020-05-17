@@ -25,7 +25,6 @@ class ListViewer extends Component{
       headers: new Headers({
         Authorization: this.props.auth,
       }),
-
     }).then( res => res.json()).then( res => {
       this.setState({listIds:res.listIds});
       this.props.onListUpdated();
@@ -43,6 +42,9 @@ class ListViewer extends Component{
   }
 
   render(){
+    if(this.props.shouldUpdate){
+      this.updateData();
+    }
     return (
       <div>
         {

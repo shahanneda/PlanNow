@@ -36,7 +36,7 @@ class Plan extends Component{
       <div>
         Plan Page
         <ListViewer 
-          newList={this.state.shouldUpdateLists} 
+          shouldUpdate={this.state.shouldUpdateLists} 
           onListUpdated={ () => this.setState( {shouldUpdateLists: false} ) } 
           url={this.props.url} 
           userId={this.state.userId} 
