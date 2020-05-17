@@ -20,12 +20,15 @@ class ListItem extends Component{
   render(){
 
     return (
-      <div>
+      <div className="form-group">
 
-        <input key={this.props.item.id} type="text" 
+        <input 
+          key={this.props.item.id} 
+          type="text" 
           onChange={(event) => this.props.onChange(this.props.item.id, event.target.value )}
           value={this.props.item.value}
           ref={this.inputRef}
+          className="form-control"
         /> 
 
       </div>

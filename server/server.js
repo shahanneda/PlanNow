@@ -181,6 +181,20 @@ function mongoSetUpDone(){
       status: "success",
     }));
   });
+  app.post('/post/remove/list/:id/', (req, res) => {
+    let headers = JSON.stringify(req.headers);
+    console.log(req.cookies);
+    //TODO: add an auth check here
+    usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
+      let userLists = usr.lists;
+      delete userLists[req.params.id];
+      usersCollection.update({_id: req.cookies.userId}, { $set:{lists:userLists} } );
+    });
+
+    res.send(JSON.stringify({
+      status: "success",
+    }));
+  });
 
   app.post('/userExists', (req, res) => {
     req.body.id = req.body.id.toLowerCase();

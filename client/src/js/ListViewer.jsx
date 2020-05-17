@@ -40,11 +40,36 @@ class ListViewer extends Component{
 
   addNewListItem = () => {
   }
+  
+  deleteList = (id) => {
+    fetch(this.props.url +"/post/remove/list/" + id + "/", {
+      method:'post',
+      headers: new Headers({
+        Authorization: this.props.auth,
+        "Content-Type": "application/json",
+      }),
+
+      body:JSON.stringify( {
+      })
+
+    }).then(res => res.json()).then( res => {
+      console.log(res);
+    });
+    
+    // Manually remove the list from the interface since it will take time for the backend to update
+    let listIds = this.state.listIds;
+    delete listIds[id];
+    this.setState({ listIds: listIds } );
+    setTimeout(this.updateData, 1000); // add a 0.1 second delay so the data base has updated befroe we update
+    //this.forceUpdate();
+  }
 
   render(){
+
     if(this.props.shouldUpdate){
       this.updateData();
     }
+    
     return (
       <div>
         {
@@ -55,6 +80,7 @@ class ListViewer extends Component{
               userId={this.props.userId} 
               auth={this.props.auth} 
               key={id}
+              deleteList={this.deleteList}
             />
           )
         }

@@ -58,7 +58,6 @@ class PlanList extends Component{
     });
   }
 
-  
   addNewListItem = () => {
     let list = this.state.listData;
     let id = list.id + Date.now();
@@ -78,6 +77,7 @@ class PlanList extends Component{
           <Card.Header>
             <Card.Title>
               {this.state.listData.name}
+              <Button className="float-right" variant="danger" onClick={ () => this.props.deleteList(this.state.listData.id) } > X </Button>
             </Card.Title>
           </Card.Header>
           <Card.Body>
