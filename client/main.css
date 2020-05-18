@@ -12,7 +12,22 @@
 .login-button{
         margin: 20px;
 }
-.react-bootstrap-table{
-  width: 100%;
+
+
+.list-viewer{
+  /* width: 100vw; */
+}
+
+.side-menu-list{
+  /* width:30%; */
+  padding-right: 0px !important;
+
+}
+
+.plan-list{
+  /*width:70%;*/
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+
 
 }

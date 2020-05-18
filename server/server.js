@@ -152,7 +152,7 @@ function mongoSetUpDone(){
 
       let listIds = {};
 
-      Object.keys(usr.lists).map( listId => listIds[listId] = listId );
+      Object.keys(usr.lists).map( listId => listIds[listId] = usr.lists[listId].name );
       res.send(JSON.stringify(
         {
           listIds:listIds,

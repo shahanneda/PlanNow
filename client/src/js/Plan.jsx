@@ -15,6 +15,7 @@ class Plan extends Component{
       userId:"",
       auth:"",
       shouldUpdateLists: false,
+      currentListIdSelected: "",
     };
 
   }
@@ -26,6 +27,33 @@ class Plan extends Component{
     this.setState({shouldUpdateLists: true});
     this.forceUpdate();
   }
+  setCurrentListIdSelected = (id) => {
+    this.setState({currentListIdSelected: id});
+  }
+
+  deleteList = (id) => {
+    fetch(this.props.url +"/post/remove/list/" + id + "/", {
+      method:'post',
+      headers: new Headers({
+        Authorization: this.props.auth,
+        "Content-Type": "application/json",
+      }),
+
+      body:JSON.stringify( {
+      })
+
+    }).then(res => res.json()).then( res => {
+      console.log(res);
+    });
+
+    // Manually remove the list from the interface since it will take time for the backend to update
+    /*let listIds = this.state.listIds;
+    delete listIds[id];*/
+
+    this.setState({ shouldUpdateLists: true } );
+    setTimeout(this.updateData, 1000); // add a 0.1 second delay so the data base has updated befroe we update
+    //this.forceUpdate();
+  }
 
   render(){
     if(cookies.get("loggedIn") !== "true"){
@@ -33,15 +61,26 @@ class Plan extends Component{
     }
 
     return (
-      <div>
-        Plan Page
+      <div className="row">
         <ListViewer 
           shouldUpdate={this.state.shouldUpdateLists} 
           onListUpdated={ () => this.setState( {shouldUpdateLists: false} ) } 
           url={this.props.url} 
           userId={this.state.userId} 
           auth={this.state.auth}
+          currentListIdSelected={this.state.currentListIdSelected}
+          setCurrentListIdSelected={this.setCurrentListIdSelected}
         />
+
+        <PlanList 
+          url={this.props.url} 
+          listId={this.state.currentListIdSelected} 
+          userId={this.props.userId} 
+          auth={this.props.auth} 
+          key={this.state.currentListIdSelected}
+          deleteList={this.deleteList}
+        />
+
 
         <NewList url={this.props.url} userId={this.state.userId} auth={this.state.auth} onNew={ this.onNewListAdded }/>
 

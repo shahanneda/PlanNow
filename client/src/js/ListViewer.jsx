@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button} from 'react-bootstrap';
+import {Button, ListGroup} from 'react-bootstrap';
 import Cookies from 'universal-cookie';
 import {Redirect, Link} from "react-router-dom";
 import PlanList from "./PlanList.jsx";
@@ -24,11 +24,18 @@ class ListViewer extends Component{
       method:'get',
       headers: new Headers({
         Authorization: this.props.auth,
+        'Accept': 'application/json'
       }),
+
     }).then( res => res.json()).then( res => {
       this.setState({listIds:res.listIds});
       this.props.onListUpdated();
+
+      if(this.props.currentListIdSelected === ""){ // if the user hasent selected soemthing pick the first one for them
+        this.props.setCurrentListIdSelected(Object.keys(this.state.listIds)[0]);
+      }
     });
+
     console.log("updated data");
   }
 
@@ -40,51 +47,26 @@ class ListViewer extends Component{
 
   addNewListItem = () => {
   }
-  
-  deleteList = (id) => {
-    fetch(this.props.url +"/post/remove/list/" + id + "/", {
-      method:'post',
-      headers: new Headers({
-        Authorization: this.props.auth,
-        "Content-Type": "application/json",
-      }),
 
-      body:JSON.stringify( {
-      })
-
-    }).then(res => res.json()).then( res => {
-      console.log(res);
-    });
-    
-    // Manually remove the list from the interface since it will take time for the backend to update
-    let listIds = this.state.listIds;
-    delete listIds[id];
-    this.setState({ listIds: listIds } );
-    setTimeout(this.updateData, 1000); // add a 0.1 second delay so the data base has updated befroe we update
-    //this.forceUpdate();
-  }
 
   render(){
 
     if(this.props.shouldUpdate){
       this.updateData();
     }
-    
+
     return (
-      <div>
-        {
-          Object.keys(this.state.listIds).map( (id) =>  
-            <PlanList 
-              url={this.props.url} 
-              listId={id} 
-              userId={this.props.userId} 
-              auth={this.props.auth} 
-              key={id}
-              deleteList={this.deleteList}
-            />
-          )
-        }
-      </div>
+        <ListGroup className="side-menu-list col-3 list-viewer ">
+          {
+            Object.keys(this.state.listIds).map( (id) =>  
+              <ListGroup.Item 
+                onClick={ () => this.props.setCurrentListIdSelected(id) } 
+                key={id}
+                active={this.props.currentListIdSelected === id}
+              > {this.state.listIds[id]} </ListGroup.Item>
+            )
+          }
+        </ListGroup>
     );
   }
 

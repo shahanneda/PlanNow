@@ -11,8 +11,8 @@ class PlanList extends Component{
     super(props);
     this.state = {
       listData:{},
-
     };
+    this.keyboardUpdateTimeOut = null;
   }
 
   componentDidMount () {
@@ -38,8 +38,13 @@ class PlanList extends Component{
     if(!(id in newList.items)){
       newList.items[id] = {id: id};
     }
-    newList.items[id].value = textValue; // instead of this have it put to database
-    this.setData();
+    newList.items[id].value = textValue; 
+
+    // this is so we dont constantly update it every time we type and instead we wait
+    if(this.keyboardUpdateTimeOut != null){
+      clearTimeout(this.keyboardUpdateTimeOut);
+    }
+    this.keyboardUpdateTimeOut = setTimeout(this.setData, 500);
     this.setState({listData: newList, currentIdSelected: id},);
   }
 
@@ -72,7 +77,7 @@ class PlanList extends Component{
     }
 
     return (
-      <div>
+      <div className="plan-list col-9">
         <Card>
           <Card.Header>
             <Card.Title>
