@@ -70,7 +70,9 @@ class Plan extends Component{
           auth={this.state.auth}
           currentListIdSelected={this.state.currentListIdSelected}
           setCurrentListIdSelected={this.setCurrentListIdSelected}
+          onNewListAdded={this.onNewListAdded}
         />
+
 
         <PlanList 
           url={this.props.url} 
@@ -82,12 +84,7 @@ class Plan extends Component{
         />
 
 
-        <NewList url={this.props.url} userId={this.state.userId} auth={this.state.auth} onNew={ this.onNewListAdded }/>
 
-        <Button onClick={ () => {
-          cookies.set('loggedIn', 'false', { path: '/' });
-          this.forceUpdate();
-        }}> Log Out </Button>
       </div>
 
 

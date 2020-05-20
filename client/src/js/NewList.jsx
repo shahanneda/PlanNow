@@ -58,6 +58,12 @@ class NewList extends Component{
         />  
 
         <Button onClick={this.newList}> Create new list </Button>
+
+        <Button onClick={ () => {
+          cookies.set('loggedIn', 'false', { path: '/' });
+          this.forceUpdate();
+        }}> Log Out </Button>
+
       </div>
     );
   }

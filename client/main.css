@@ -1,16 +1,16 @@
 .account-wrapper{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100vh;
 }
 @media(max-width:768px){
-        .account-wrapper{
-                margin-top:10vh;
-        }
+  .account-wrapper{
+    margin-top:10vh;
+  }
 }
 .login-button{
-        margin: 20px;
+  margin: 20px;
 }
 
 
@@ -21,7 +21,31 @@
 .side-menu-list{
   /* width:30%; */
   padding-right: 0px !important;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
+  
+}
+
+body{
+  scrollbar-color:#375a7f  #303030 ; /* first vertical then the peice */
+  scrollbar-width: auto;
+
+
+}
+/* This is for chrome */
+::-webkit-scrollbar{ 
+  background-color: #303030;
+  width: 15px;
+}
+
+::-webkit-scrollbar-track-piece  {
+  height: 1px;
+  background-color:  #303030 /* alos blue */;
+}
+::-webkit-scrollbar-thumb:vertical {
+  background-color: #375a7f; /* the vertical*/
 }
 
 .plan-list-item-name{

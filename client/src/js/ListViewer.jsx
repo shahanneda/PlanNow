@@ -3,6 +3,7 @@ import {Button, ListGroup} from 'react-bootstrap';
 import Cookies from 'universal-cookie';
 import {Redirect, Link} from "react-router-dom";
 import PlanList from "./PlanList.jsx";
+import NewList from "./NewList.jsx";
 
 const cookies = new Cookies();
 
@@ -56,17 +57,22 @@ class ListViewer extends Component{
     }
 
     return (
-        <ListGroup className="side-menu-list col-3 list-viewer ">
-          {
-            Object.keys(this.state.listIds).map( (id) =>  
-              <ListGroup.Item 
-                onClick={ () => this.props.setCurrentListIdSelected(id) } 
-                key={id}
-                active={this.props.currentListIdSelected === id}
-              > {this.state.listIds[id]} </ListGroup.Item>
-            )
-          }
-        </ListGroup>
+      <ListGroup className="side-menu-list col-3 list-viewer ">
+
+        <ListGroup.Item>
+          <NewList url={this.props.url} userId={this.state.userId} auth={this.state.auth} onNew={ this.props.onNewListAdded }/>
+        </ListGroup.Item>
+
+        {
+          Object.keys(this.state.listIds).map( (id) =>  
+            <ListGroup.Item 
+              onClick={ () => this.props.setCurrentListIdSelected(id) } 
+              key={id}
+              active={this.props.currentListIdSelected === id}
+            > {this.state.listIds[id]} </ListGroup.Item>
+          )
+        }
+      </ListGroup>
     );
   }
 
