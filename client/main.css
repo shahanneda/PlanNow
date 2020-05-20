@@ -74,3 +74,12 @@ body{
   overflow-x: hidden;
 
 }
+.editable-text-normal{
+  padding: 2px;
+  display: inline-block;
+
+}
+.editable-text-normal:hover{
+
+  background-color: gray;
+}

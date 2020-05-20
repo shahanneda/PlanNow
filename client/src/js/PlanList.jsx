@@ -3,6 +3,7 @@ import {Button, Card} from 'react-bootstrap';
 import Cookies from 'universal-cookie';
 import {Redirect, Link} from "react-router-dom";
 import ListItem from "./ListItem.jsx";
+import EditableText from "./EditableText.jsx";
 
 const cookies = new Cookies();
 
@@ -40,7 +41,7 @@ class PlanList extends Component{
     }
     newList.items[id].value = textValue; 
 
-    // this is so we dont constantly update it every time we type and instead we wait
+    // this is so we dont constantly update it every tim we type and instead we wait
     this.updateDataInFutureIfNoMore();
     this.setState({listData: newList, currentIdSelected: id},);
   }
@@ -81,10 +82,17 @@ class PlanList extends Component{
     let id = list.id + Date.now();
     console.log(id);
     list.items[Date.now()] = {id:id, value:""}; // instead of this have it add to database and refresh
-
     this.setState({listData:list});
   }
 
+  titleOnChange = (e) => {
+    let list = this.state.listData;
+    list.name = e.target.value;
+    this.updateDataInFutureIfNoMore();
+    console.log(e.target.value);
+
+    this.setState({listData: list});
+  }
   render(){
     if(Object.keys(this.state.listData).length === 0){
       return (<div> No data loaded yet! </div> );
@@ -95,7 +103,15 @@ class PlanList extends Component{
         <Card>
           <Card.Header>
             <Card.Title>
-              {this.state.listData.name}
+              <EditableText 
+                label={<div>{this.state.listData.name}</div> }
+                value={this.state.listData.name}
+                onChange={this.titleOnChange}
+              />
+
+
+
+
               <Button className="float-right" variant="danger" onClick={ () => this.props.deleteList(this.state.listData.id) } > X </Button>
             </Card.Title>
           </Card.Header>
