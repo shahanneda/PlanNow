@@ -41,11 +41,24 @@ class PlanList extends Component{
     newList.items[id].value = textValue; 
 
     // this is so we dont constantly update it every time we type and instead we wait
+    this.updateDataInFutureIfNoMore();
+    this.setState({listData: newList, currentIdSelected: id},);
+  }
+
+  listItemCheckBoxOnChange = (id, value) => {
+    let newList = this.state.listData;
+    newList.items[id].isComplete = value; 
+
+    this.updateDataInFutureIfNoMore();
+
+    this.setState( { listData: newList } );
+  }
+
+  updateDataInFutureIfNoMore = () => {
     if(this.keyboardUpdateTimeOut != null){
       clearTimeout(this.keyboardUpdateTimeOut);
     }
     this.keyboardUpdateTimeOut = setTimeout(this.setData, 500);
-    this.setState({listData: newList, currentIdSelected: id},);
   }
 
   setData = () => {
@@ -66,6 +79,7 @@ class PlanList extends Component{
   addNewListItem = () => {
     let list = this.state.listData;
     let id = list.id + Date.now();
+    console.log(id);
     list.items[Date.now()] = {id:id, value:""}; // instead of this have it add to database and refresh
 
     this.setState({listData:list});
@@ -86,14 +100,18 @@ class PlanList extends Component{
             </Card.Title>
           </Card.Header>
           <Card.Body>
+
             {Object.keys(this.state.listData.items).map( (id) =>  
+
             <ListItem 
               item={this.state.listData.items[id]}  
               onChange={this.listItemOnChange} 
               key={id} 
               isFocused={id == this.state.currentIdSelected} 
+              checkBoxChange={this.listItemCheckBoxOnChange}
             />)}
-            <ListItem item={{id: Date.now(), value:""}}  onChange={this.listItemOnChange}/>
+
+            <ListItem item={{id: Date.now() + "--" + this.state.listData.id, value:""}}  onChange={this.listItemOnChange}/>
           </Card.Body>
           {/*<Button className="add-new-button" onClick={this.addNewListItem} > New </Button>*/}
         </Card>

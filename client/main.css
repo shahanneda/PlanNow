@@ -24,10 +24,25 @@
 
 }
 
+.plan-list-item-name{
+  width: 70%;
+}
+.form-check.plan-list-completed-checkbox{
+  width: 20%;
+
+}
+.plan-list-completed-checkbox > input{
+  width: 2em;
+  height: 2em;
+  margin-right: 0px;
+}
+.plan-list-item{
+  display: inline;
+  width:100%;
+  display:flex;
+}
 .plan-list{
   /*width:70%;*/
   padding-right: 0px !important;
   padding-left: 0px !important;
-
-
 }
