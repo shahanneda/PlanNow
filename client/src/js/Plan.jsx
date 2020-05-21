@@ -16,22 +16,50 @@ class Plan extends Component{
       auth:"",
       shouldUpdateLists: false,
       currentListIdSelected: "",
+      listIds:{},
     };
 
   }
   componentDidMount(){
     this.setState({userId: cookies.get("userId"), auth: "authToken"});
+    this.updateData();
   }
 
-  onNewListAdded = () => {
-    this.setState({shouldUpdateLists: true});
+  onNewListAdded = (newListIdAndName) => {
+    //temperarily add it so we can see it in the board instantly
+
+    let listIds = this.state.listIds; 
+    listIds[newListIdAndName.id] = newListIdAndName[newListIdAndName.name];
+
+    setTimeout(this.updateData, 100); // get connected to the data base again
     this.forceUpdate();
   }
   setCurrentListIdSelected = (id) => {
     this.setState({currentListIdSelected: id});
   }
 
+  updateData = () => {
+    fetch(this.props.url + "/get/all-user-list-id/", {
+      method:'get',
+      headers: new Headers({
+        Authorization: this.props.auth,
+        'Accept': 'application/json'
+      }),
+
+    }).then( res => res.json()).then( res => {
+      this.setState({listIds:res.listIds});
+
+      if(this.state.currentListIdSelected === "" ){ // if the user hasent selected soemthing pick the first one for them
+        this.setCurrentListIdSelected(Object.keys(this.state.listIds)[0]);
+      }
+    });
+
+    console.log("updated data");
+  }
+
   deleteList = (id) => {
+    let listIds = this.state.listIds;
+
     fetch(this.props.url +"/post/remove/list/" + id + "/", {
       method:'post',
       headers: new Headers({
@@ -47,10 +75,12 @@ class Plan extends Component{
     });
 
     // Manually remove the list from the interface since it will take time for the backend to update
-    /*let listIds = this.state.listIds;
-    delete listIds[id];*/
+    /*let listIds = this.state.listIds;*/
 
-    this.setState({ shouldUpdateLists: true } );
+    this.setCurrentListIdSelected(Object.keys(listIds)[ Object.keys(listIds).indexOf(id) - 1 ]);// set it to the one above
+    delete listIds[id];
+
+    this.setState({ listIds: listIds, shouldUpdateLists: true} );
     setTimeout(this.updateData, 1000); // add a 0.1 second delay so the data base has updated befroe we update
     //this.forceUpdate();
   }
@@ -71,6 +101,7 @@ class Plan extends Component{
           currentListIdSelected={this.state.currentListIdSelected}
           setCurrentListIdSelected={this.setCurrentListIdSelected}
           onNewListAdded={this.onNewListAdded}
+          listIds={this.state.listIds}
         />
 
 

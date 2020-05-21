@@ -42,9 +42,11 @@ class NewList extends Component{
     }).then( res => res.json()).then( result => {
       console.log(result);
       this.setState({listItems: result.listItems});
-      this.props.onNew();
       console.log(result);
     });
+
+
+    this.props.onNew({id: listName, name: listName});
   }
 
   render(){
