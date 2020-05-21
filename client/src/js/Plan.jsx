@@ -60,8 +60,9 @@ class Plan extends Component{
 
   deleteList = (id) => {
     let listIds = this.state.listIds;
+    console.log("removing list with id" + id);
 
-    fetch(this.props.url +"/post/remove/list/" + id + "/", {
+    fetch(this.props.url +"/post/remove/list/" + encodeURI(id) + "/", {
       method:'post',
       headers: new Headers({
         Authorization: this.props.auth,

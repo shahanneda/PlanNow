@@ -100,10 +100,8 @@ function mongoSetUpDone(){
 
   app.get('/get/list/:id/', (req, res) => {
     let headers = JSON.stringify(req.headers);
-    console.log(req.cookies);
     /*
     if(err){
-      console.log(err);
       res.send(JSON.stringify(
         {
           status: "fail",
@@ -118,9 +116,8 @@ function mongoSetUpDone(){
         console.log(err);
         return;
       }
-      console.log(req.params);
+      console.log(req.params.id);
       if(req.params.id in usr.lists){
-        console.log(usr.lists);
         res.send(JSON.stringify(
           {
             list: usr.lists[req.params.id],
@@ -168,11 +165,9 @@ function mongoSetUpDone(){
 
   app.post('/post/list/:id/', (req, res) => {
     let headers = JSON.stringify(req.headers);
-    console.log(req.cookies);
     //TODO: add an auth check here
     usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
       let userLists = usr.lists;
-      console.log(userLists);
       userLists[req.body.list.id] = req.body.list;
       usersCollection.update({_id: req.cookies.userId}, { $set:{lists:userLists} } );
     });
@@ -183,12 +178,16 @@ function mongoSetUpDone(){
   });
   app.post('/post/remove/list/:id/', (req, res) => {
     let headers = JSON.stringify(req.headers);
-    console.log(req.cookies);
+    console.log("got remove request for list with id" + req.params.id);
     //TODO: add an auth check here
     usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
+      if(err){
+        return;
+      }
+
       let userLists = usr.lists;
       delete userLists[req.params.id];
-      usersCollection.update({_id: req.cookies.userId}, { $set:{lists:userLists} } );
+      usersCollection.updateOne({_id: req.cookies.userId}, { $set:{lists:userLists} } );
     });
 
     res.send(JSON.stringify({

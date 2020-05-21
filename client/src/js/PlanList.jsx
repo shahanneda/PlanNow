@@ -29,13 +29,11 @@ class PlanList extends Component{
   }
 
   updateData= () => {
-    fetch(this.props.url +"/get/list/" + this.props.listId + "/", {
-      method:'get',
-      headers: new Headers({
-        Authorization: this.props.auth,
-      }),
+    console.log("AAAaaaa");
+    let url = this.props.url +"/get/list/" + encodeURIComponent(this.props.listId) + "/";
+    console.log("url is", url);
 
-    }).then( res => res.json()).then( result => {
+    fetch(url).then( res => res.json()).then( result => {
       this.setState({listData: result.list});
       console.log("get list")
       console.log(result);
@@ -72,7 +70,7 @@ class PlanList extends Component{
 
 
   setData = () => {
-    fetch(this.props.url +"/post/list/" + this.props.listId + "/", {
+    fetch(this.props.url +"/post/list/" + encodeURIComponent(this.props.listId) + "/", {
       method:'post',
       headers: new Headers({
         Authorization: this.props.auth,

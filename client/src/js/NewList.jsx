@@ -23,7 +23,7 @@ class NewList extends Component{
     }
 
 
-    fetch(this.props.url +"/post/list/" + listId + "/", {
+    fetch(this.props.url +"/post/list/" + encodeURIComponent(listId) + "/", {
       method:'post',
       headers: new Headers({
         Authorization: this.props.auth,
