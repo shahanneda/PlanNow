@@ -11,7 +11,13 @@ class PlanList extends Component{
   constructor(props){
     super(props);
     this.state = {
-      listData:{},
+      listData:{
+        id: this.props.listId,
+        name: this.props.listName,
+        items:{}
+
+
+      },
     };
     this.keyboardUpdateTimeOut = null;
   }
@@ -95,6 +101,7 @@ class PlanList extends Component{
   }
   render(){
     if(Object.keys(this.state.listData).length === 0){
+      setTimeout(this.updateData, 100);
       return (<div> No data loaded yet! </div> );
     }
 
@@ -108,9 +115,6 @@ class PlanList extends Component{
                 value={this.state.listData.name}
                 onChange={this.titleOnChange}
               />
-
-
-
 
               <Button className="float-right" variant="danger" onClick={ () => this.props.deleteList(this.state.listData.id) } > X </Button>
             </Card.Title>

@@ -40,13 +40,10 @@ class NewList extends Component{
       })
 
     }).then( res => res.json()).then( result => {
-      console.log(result);
-      this.setState({listItems: result.listItems});
-      console.log(result);
     });
 
 
-    this.props.onNew({id: listName, name: listName});
+    this.props.onNew({id: listId, name: listName});
   }
 
   render(){

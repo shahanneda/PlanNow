@@ -29,7 +29,9 @@ class Plan extends Component{
     //temperarily add it so we can see it in the board instantly
 
     let listIds = this.state.listIds; 
+    console.log(newListIdAndName.id);
     listIds[newListIdAndName.id] = newListIdAndName[newListIdAndName.name];
+    this.setCurrentListIdSelected(newListIdAndName.id);
 
     setTimeout(this.updateData, 100); // get connected to the data base again
     this.forceUpdate();
@@ -112,6 +114,7 @@ class Plan extends Component{
           auth={this.props.auth} 
           key={this.state.currentListIdSelected}
           deleteList={this.deleteList}
+          listName={this.state.listIds[this.state.currentListIdSelected]} // this is just so there is no lag on initial list creation in reality the db overides this quickly
         />
 
 
