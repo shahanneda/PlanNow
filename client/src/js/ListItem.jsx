@@ -32,6 +32,7 @@ class ListItem extends Component{
             className="plan-list-completed-checkbox" 
             type="checkbox" 
             onChange={ (e) => this.props.checkBoxChange(this.props.item.id, e.target.checked) } 
+            tabindex="-1" // so it cant be selected with tab
           />
 
           <EditableText 

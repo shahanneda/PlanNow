@@ -21,7 +21,12 @@ class Plan extends Component{
 
   }
   componentDidMount(){
-    this.setState({userId: cookies.get("userId"), auth: "authToken"});
+
+    this.setState({
+      userId: cookies.get("userId"), 
+      auth: "authToken", 
+      currentListIdSelected: cookies.get("currentListIdSelected") != null ? cookies.get("currentListIdSelected") : "",
+    });
     this.updateData();
   }
 
@@ -37,6 +42,7 @@ class Plan extends Component{
   }
   setCurrentListIdSelected = (id) => {
     this.setState({currentListIdSelected: id});
+    cookies.set("currentListIdSelected", id, {path: "/"} );
   }
 
   updateData = () => {
@@ -62,7 +68,7 @@ class Plan extends Component{
     let listIds = this.state.listIds;
     console.log("removing list with id" + id);
 
-    fetch(this.props.url +"/post/remove/list/" + encodeURI(id) + "/", {
+    fetch(this.props.url +"/post/remove/list/" + encodeURIComponent(id) + "/", {
       method:'post',
       headers: new Headers({
         Authorization: this.props.auth,
