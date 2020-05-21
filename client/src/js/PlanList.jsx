@@ -24,6 +24,8 @@ class PlanList extends Component{
 
   componentDidMount () {
     this.updateData();
+
+    window.addEventListener('unload', event => {this.setData()});
   }
 
   updateData= () => {
@@ -68,6 +70,7 @@ class PlanList extends Component{
     this.keyboardUpdateTimeOut = setTimeout(this.setData, 500);
   }
 
+
   setData = () => {
     fetch(this.props.url +"/post/list/" + this.props.listId + "/", {
       method:'post',
@@ -95,7 +98,7 @@ class PlanList extends Component{
     let list = this.state.listData;
     list.name = e.target.value;
     this.updateDataInFutureIfNoMore();
-    console.log(e.target.value);
+    this.props.listNameChange({id: list.id, name:list.name});
 
     this.setState({listData: list});
   }
@@ -131,7 +134,13 @@ class PlanList extends Component{
               checkBoxChange={this.listItemCheckBoxOnChange}
             />)}
 
-            <ListItem item={{id: Date.now() + "--" + this.state.listData.id, value:""}}  onChange={this.listItemOnChange}/>
+            <ListItem 
+              item={{id: Date.now() + "--" + this.state.listData.id, value:""}}  
+              onChange={this.listItemOnChange}
+              onlyEdit={true}
+              isFocused={false}
+              placeholder={"Type here to make a new item"}
+            />
           </Card.Body>
           {/*<Button className="add-new-button" onClick={this.addNewListItem} > New </Button>*/}
         </Card>

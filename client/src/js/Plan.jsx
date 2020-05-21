@@ -27,7 +27,6 @@ class Plan extends Component{
 
   onNewListAdded = (newListIdAndName) => {
     //temperarily add it so we can see it in the board instantly
-
     let listIds = this.state.listIds; 
     console.log(newListIdAndName.id);
     listIds[newListIdAndName.id] = newListIdAndName[newListIdAndName.name];
@@ -87,6 +86,13 @@ class Plan extends Component{
     //this.forceUpdate();
   }
 
+  listNameChange = (newList) => {
+    // this is only here so we can temporarily set the list name in the side bar after a rename(until the database is updated)
+    let listIds = this.state.listIds;
+    listIds[newList.id] = newList.name;
+    this.setState({listIds: listIds});
+  }
+
   render(){
     if(cookies.get("loggedIn") !== "true"){
       return(<Redirect to="/login" /> );
@@ -115,6 +121,7 @@ class Plan extends Component{
           key={this.state.currentListIdSelected}
           deleteList={this.deleteList}
           listName={this.state.listIds[this.state.currentListIdSelected]} // this is just so there is no lag on initial list creation in reality the db overides this quickly
+          listNameChange={this.listNameChange}
         />
 
 

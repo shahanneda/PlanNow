@@ -2,10 +2,16 @@ import React, {Component} from 'react'
 import {Button} from 'react-bootstrap';
 class EditableText extends Component{
 
+  static defaultProps = {
+    isEditing: false,
+    isOnlyEdit: false, // have to do lowercase only name since props being spread down 
+    placeholder: "",
+  }
+
   constructor(props){
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: this.props.isEditing,
     };
     this.ref = React.createRef();
 
@@ -18,14 +24,23 @@ class EditableText extends Component{
   }
 
   componentDidUpdate(){
-    if(this.ref.current != null){
+    if( (this.state.isEditing && !this.props.isOnlyEdit) || this.props.isFocused){
+      if(this.ref.current != null){
+        this.ref.current.focus();
+      }
+    }
+  }
+  componentDidMount(){
+
+    if(this.props.isFocused && this.ref.current != null){
       this.ref.current.focus();
     }
   }
 
   render(){
 
-    if(!this.state.isEditing){
+
+    if(!this.state.isEditing && !this.props.isOnlyEdit){
       return (
         <div className={"editable-text-normal " + this.props.className} onClick={() => this.setState({isEditing: true}) } > 
           {this.props.label}
@@ -41,6 +56,8 @@ class EditableText extends Component{
         value={this.props.value} 
         onChange={this.props.onChange} 
         onBlur={() => this.setState({isEditing: false})}
+        placeholder={this.props.placeholder}
+        {...this.props.otherProps}
       />
     )
   }
