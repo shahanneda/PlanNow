@@ -25,7 +25,7 @@
   overflow-y: scroll;
   overflow-x: hidden;
 
-  
+
 }
 
 body{
@@ -49,7 +49,7 @@ body{
 }
 
 .plan-list-item-name{
-  width: 70%;
+  width: 100%;
 }
 .form-check.plan-list-completed-checkbox{
   margin-right:10px;
@@ -64,6 +64,17 @@ body{
   display: inline;
   width:100%;
   display:flex;
+  background: #333333;
+  margin: 10px 0px;
+  padding: 10px;
+  border: 1px solid transparent;
+
+}
+.plan-list-item:hover{
+  border-width: 0.25px;
+  border-style: solid;
+  border-color: white;
+  cursor: move;
 }
 .plan-list{
   /*width:70%;*/
@@ -84,7 +95,17 @@ body{
 
 }
 .editable-text-normal:hover{
-    border-width: 2px;
-    border-style: solid;
-    border-color: white;
+  color: #b4f1ff;
+}
+
+.list-title{
+  display: inline-block;
+}
+
+
+
+
+.list-item-remove-button-:hover {
+  background-color: #4e4e4e;
+  border: solid 1px #a7a7a7;
 }

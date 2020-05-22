@@ -28,14 +28,10 @@ class PlanList extends Component{
   }
 
   updateData = () => {
-    console.log("AAAaaaa");
     let url = this.props.url +"/get/list/" + encodeURIComponent(this.props.listId) + "/";
-    console.log("url is", url);
 
     fetch(url).then( res => res.json()).then( result => {
       this.setState({listData: result.list});
-      console.log("get list")
-      console.log(result);
     });
   }
 
@@ -99,6 +95,14 @@ class PlanList extends Component{
 
     this.setState({listData: list});
   }
+
+  onRemoveListItem = (id) => {
+    let list = this.state.listData;
+    delete list.items[id];
+    this.setState({listData: list});
+    this.updateDataInFutureIfNoMore();
+  }
+
   render(){
     if(Object.keys(this.state.listData).length === 0){
       setTimeout(this.updateData, 100);
@@ -114,6 +118,7 @@ class PlanList extends Component{
                 label={<div>{this.state.listData.name}</div> }
                 value={this.state.listData.name}
                 onChange={this.titleOnChange}
+                className={" list-title "}
               />
 
               <Button className="float-right" variant="danger" onClick={ () => this.props.deleteList(this.state.listData.id) } > X </Button>
@@ -129,6 +134,7 @@ class PlanList extends Component{
               key={id} 
               isFocused={id == this.state.currentIdSelected} 
               checkBoxChange={this.listItemCheckBoxOnChange}
+              onRemoveButton={this.onRemoveListItem}
             />)}
 
             <ListItem 

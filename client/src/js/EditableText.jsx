@@ -6,6 +6,7 @@ class EditableText extends Component{
     isEditing: false, // used so you can start it in edit mode
     placeholder: "", // placeholder for the input field
     shouldFocus: true, //  whether we want it to auto focus if we are editing
+    className: "",
   }
 
   constructor(props){

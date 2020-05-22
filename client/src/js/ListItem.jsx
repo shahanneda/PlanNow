@@ -26,7 +26,7 @@ class ListItem extends Component{
     return (
       <div className="" >
         <div className=" plan-list-item" > {/* from-group */}
-           
+
           <Form.Check 
             checked={this.props.item.isComplete ? true : false} 
             className={"plan-list-completed-checkbox " + (this.props.isAddNewItem ? " invisible " : "")} 
@@ -45,7 +45,13 @@ class ListItem extends Component{
             shouldFocus={!this.props.isAddNewItem} // if we are the special last one we dont want to focus
             placeholder={this.props.placeholder} // the placeholder for the input field 
           />
-          {console.log(this.props.isFocused)}
+
+            <Button 
+              className={"list-item-remove-buttom " + (this.props.isAddNewItem ? " invisible " : "")}
+              variant=""
+              onClick={() => this.props.onRemoveButton(this.props.item.id)}
+            > X </Button>
+
 
           {/* form-control */ }
           {/* <input  */}
