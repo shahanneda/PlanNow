@@ -23,7 +23,6 @@ class ListItem extends Component{
   }
 
   render(){
-
     return (
       <div className="" >
         <div className=" plan-list-item" > {/* from-group */}
@@ -33,7 +32,7 @@ class ListItem extends Component{
             className={"plan-list-completed-checkbox " + (this.props.isAddNewItem ? " invisible " : "")} 
             type="checkbox" 
             onChange={ (e) => this.props.checkBoxChange(this.props.item.id, e.target.checked) } 
-            tabindex="-1" // so it cant be selected with tab
+            tabIndex="-1" // so it cant be selected with tab
           />
 
           <EditableText 
@@ -42,13 +41,9 @@ class ListItem extends Component{
             value={this.props.item.value}
             className=" plan-list-item-name" 
             label={ <div> {this.props.item.value} {this.props.isAddNewItem ? "Type here to add a new item." : "" }</div> }
-            value={this.props.item.value}
-            isEditing={this.props.isFocused} // if we are focused or if we are only edit we should be editing
-            isOnlyEdit={false}
-            shouldFocus={!this.props.isAddNewItem}
-            isFocused={this.props.isFocused}
-            otherProps={ {} }
-            placeholder={this.props.placeholder}
+            isEditing={this.props.isFocused} // if we are focused on this one we should be editing
+            shouldFocus={!this.props.isAddNewItem} // if we are the special last one we dont want to focus
+            placeholder={this.props.placeholder} // the placeholder for the input field 
           />
           {console.log(this.props.isFocused)}
 
