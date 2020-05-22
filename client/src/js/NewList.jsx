@@ -61,6 +61,7 @@ class NewList extends Component{
         <Button onClick={ () => {
           cookies.set('loggedIn', 'false', { path: '/' });
           this.forceUpdate();
+          window.location.reload();
         }}> Log Out </Button>
 
       </div>

@@ -112,7 +112,7 @@ function mongoSetUpDone(){
 
     //TODO: add an auth check here
     usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
-      if(err){
+      if(err || usr == null){
         console.log(err);
         return;
       }
@@ -137,7 +137,7 @@ function mongoSetUpDone(){
 
     //TODO: add an auth check here
     usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
-      if(err){
+      if(err || usr == null){
         console.log(err);
         res.send(JSON.stringify(
           {

@@ -104,7 +104,7 @@ class PlanList extends Component{
   }
 
   render(){
-    if(Object.keys(this.state.listData).length === 0){
+    if(Object.keys(this.state.listData).length === 0 || !this.props.listId){
       setTimeout(this.updateData, 100);
       return (<div> No data loaded yet! </div> );
     }

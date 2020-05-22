@@ -21,11 +21,15 @@ class Plan extends Component{
 
   }
   componentDidMount(){
+    let currentListIdSelected = cookies.get("currentListIdSelected");
+    if(currentListIdSelected && currentListIdSelected !== "undefined" ){ // check if we dont have the list id selected ( it will never be undefined since list ids always have many diffrente parametes (even if list name is undefined) );
+      console.log(currentListIdSelected);
+      this.setState({currentListIdSelected: currentListIdSelected});
+    }
 
     this.setState({
       userId: cookies.get("userId"), 
       auth: "authToken", 
-      currentListIdSelected: cookies.get("currentListIdSelected") != null ? cookies.get("currentListIdSelected") : "",
     });
     this.updateData();
   }
@@ -120,6 +124,8 @@ class Plan extends Component{
         />
 
 
+        
+        {this.state.currentListIdSelected ? 
         <PlanList 
           url={this.props.url} 
           listId={this.state.currentListIdSelected} 
@@ -129,9 +135,7 @@ class Plan extends Component{
           deleteList={this.deleteList}
           listName={this.state.listIds[this.state.currentListIdSelected]} // this is just so there is no lag on initial list creation in reality the db overides this quickly
           listNameChange={this.listNameChange}
-        />
-
-
+        /> : "" }
 
       </div>
 
