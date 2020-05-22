@@ -8,7 +8,7 @@ const cookies = new Cookies();
 
 class ListItem extends Component{
   static defaultProps = {
-    onlyEdit: false,
+    isAddNewItem: false,
     placeholder: "",
   }
 
@@ -27,9 +27,10 @@ class ListItem extends Component{
     return (
       <div className="" >
         <div className=" plan-list-item" > {/* from-group */}
+           
           <Form.Check 
             checked={this.props.item.isComplete ? true : false} 
-            className="plan-list-completed-checkbox" 
+            className={"plan-list-completed-checkbox " + (this.props.isAddNewItem ? " invisible " : "")} 
             type="checkbox" 
             onChange={ (e) => this.props.checkBoxChange(this.props.item.id, e.target.checked) } 
             tabindex="-1" // so it cant be selected with tab
@@ -37,16 +38,19 @@ class ListItem extends Component{
 
           <EditableText 
             onChange={(event) => this.props.onChange(this.props.item.id, event.target.value)}
+            key={this.props.item.value + "" + this.props.isFocused}
             value={this.props.item.value}
             className=" plan-list-item-name" 
-            label={ <div> {this.props.item.value} </div> }
+            label={ <div> {this.props.item.value} {this.props.isAddNewItem ? "Type here to add a new item." : "" }</div> }
             value={this.props.item.value}
-            isEditing={ this.props.isFocused  || this.props.onlyEdit } // if we are focused or if we are only edit we should be editing
-            isOnlyEdit={this.props.onlyEdit}
+            isEditing={this.props.isFocused} // if we are focused or if we are only edit we should be editing
+            isOnlyEdit={false}
+            shouldFocus={!this.props.isAddNewItem}
             isFocused={this.props.isFocused}
             otherProps={ {} }
             placeholder={this.props.placeholder}
           />
+          {console.log(this.props.isFocused)}
 
           {/* form-control */ }
           {/* <input  */}

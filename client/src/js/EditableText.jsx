@@ -6,13 +6,17 @@ class EditableText extends Component{
     isEditing: false,
     isOnlyEdit: false, // have to do lowercase only name since props being spread down 
     placeholder: "",
+    shouldFocus: true,
+    clicked: true,
   }
 
   constructor(props){
     super(props);
     this.state = {
       isEditing: this.props.isEditing,
+      clicked: true,
     };
+    console.log("whenc reating the state is edtiing: " +this.props.isEditing);
     this.ref = React.createRef();
 
   }
@@ -24,25 +28,29 @@ class EditableText extends Component{
   }
 
   componentDidUpdate(){
-    if( (this.state.isEditing && !this.props.isOnlyEdit) || this.props.isFocused){
-      if(this.ref.current != null){
-        this.ref.current.focus();
-      }
-    }
+    this.handleFocusUpdate();
   }
   componentDidMount(){
+    this.handleFocusUpdate();
+  }
 
-    if(this.props.isFocused && this.ref.current != null){
+  // this is for focusing on the input field at the right time
+  handleFocusUpdate = () => {
+    if((this.state.isEditing) && this.props.shouldFocus && this.ref.current != null){
       this.ref.current.focus();
+    }
+
+    // handle special case where we clicked but we dont want defualt focus 
+    if(this.state.clicked && this.ref.current != null){
+      this.ref.current.focus();
+      this.setState({clicked: false});
     }
   }
 
   render(){
-
-
     if(!this.state.isEditing && !this.props.isOnlyEdit){
       return (
-        <div className={"editable-text-normal " + this.props.className} onClick={() => this.setState({isEditing: true}) } > 
+        <div className={"editable-text-normal " + this.props.className} onClick={() => this.setState({isEditing: true, clicked:  true}) } > 
           {this.props.label}
         </div>
       );
@@ -55,7 +63,7 @@ class EditableText extends Component{
         className={"editable-text-edit " + this.props.className} 
         value={this.props.value} 
         onChange={this.props.onChange} 
-        onBlur={() => this.setState({isEditing: false})}
+        onBlur={() => { this.setState({isEditing: false})} }
         placeholder={this.props.placeholder}
         {...this.props.otherProps}
       />

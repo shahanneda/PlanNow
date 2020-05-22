@@ -14,10 +14,9 @@ class PlanList extends Component{
       listData:{
         id: this.props.listId,
         name: this.props.listName,
-        items:{}
-
-
+        items:{},
       },
+      currentIdSelected: "",
     };
     this.keyboardUpdateTimeOut = null;
   }
@@ -28,7 +27,7 @@ class PlanList extends Component{
     window.addEventListener('unload', event => {this.setData()});
   }
 
-  updateData= () => {
+  updateData = () => {
     console.log("AAAaaaa");
     let url = this.props.url +"/get/list/" + encodeURIComponent(this.props.listId) + "/";
     console.log("url is", url);
@@ -135,7 +134,7 @@ class PlanList extends Component{
             <ListItem 
               item={{id: Date.now() + "--" + this.state.listData.id, value:""}}  
               onChange={this.listItemOnChange}
-              onlyEdit={true}
+              isAddNewItem={true}
               isFocused={false}
               placeholder={"Type here to make a new item"}
             />
