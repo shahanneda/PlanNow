@@ -4,6 +4,8 @@ import Cookies from 'universal-cookie';
 import {Redirect, Link} from "react-router-dom";
 import ListItem from "./ListItem.jsx";
 import EditableText from "./EditableText.jsx";
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 
 const cookies = new Cookies();
 
@@ -107,11 +109,27 @@ class PlanList extends Component{
     this.updateDataInFutureIfNoMore();
   }
 
+  onSortEnd = ({oldIndex, newIndex}, ) => {
+    let itemsArray = Object.values(this.state.listData.items).sort((a,b) => (a.order - b.order));
+    itemsArray[oldIndex].order = newIndex; // switch the order
+    itemsArray = arrayMove(itemsArray, oldIndex, newIndex);
+
+    let oldList = this.state.listData;
+    oldList.items = itemsArray.reduce( (acc, cur, index) => { // this converts it back to the object form  {id: item}
+      cur.order = index;
+      acc[cur.id] = cur;
+      return acc;
+    }, {}); 
+    this.setState({listData: oldList});
+    console.log(`Switched index ${oldIndex} with index ${newIndex}`);
+  };
   render(){
     if(Object.keys(this.state.listData).length === 0 || !this.props.listId){
       setTimeout(this.updateData, 100);
       return (<div> No data loaded yet! </div> );
     }
+    //this turns the items from the object format to an array format
+    let itemsArr = Object.values(this.state.listData.items).sort( (a, b) => (a.order - b.order) );
 
     return (
       <div className="plan-list col-9">
@@ -129,17 +147,16 @@ class PlanList extends Component{
             </Card.Title>
           </Card.Header>
           <Card.Body className="list-body">
-
-            {Object.keys(this.state.listData.items).map( (id) =>  
-
-            <ListItem 
-              item={this.state.listData.items[id]}  
-              onChange={this.listItemOnChange} 
-              key={id} 
-              isFocused={id == this.state.currentIdSelected} 
-              checkBoxChange={this.listItemCheckBoxOnChange}
-              onRemoveButton={this.onRemoveListItem}
-            />)}
+            <SortableList 
+              items={itemsArr} 
+              onSortEnd={this.onSortEnd} 
+              listItemOnChange={this.listItemOnChange}
+              currentIdSelected={this.state.currentIdSelected}
+              listItemCheckBoxOnChange={this.listItemCheckBoxOnChange}
+              onRemoveListItem={this.onRemoveListItem}
+              distance={10}
+            />
+            {/* {Object.keys(this.state.listData.items).map( (id) =>{})} */}
 
             <ListItem 
               item={{id: Date.now() + "--" + this.state.listData.id, value:""}}  
@@ -151,10 +168,43 @@ class PlanList extends Component{
           </Card.Body>
           {/*<Button className="add-new-button" onClick={this.addNewListItem} > New </Button>*/}
         </Card>
+
+
       </div>
     );
   }
 }
 
+const SortableList = SortableContainer(({items, listItemOnChange, currentIdSelected, listItemCheckBoxOnChange, onRemoveListItem}) => {
+  return (
+    <div>
+      {items.map((value, index) => (
+
+        <SortableItem key={`item-${value.id}`} 
+          index={index} 
+          value={value} 
+          listItemOnChange={listItemOnChange} 
+          currentIdSelected={currentIdSelected}
+          listItemCheckBoxOnChange={listItemCheckBoxOnChange}
+          onRemoveListItem={onRemoveListItem}
+        />
+
+      )) }
+    </div>
+  );
+});
+
+const SortableItem = SortableElement(({value, item, listItemOnChange, currentIdSelected, listItemCheckBoxOnChange, onRemoveListItem}) => (
+
+
+  <ListItem 
+    item={value}  
+    onChange={listItemOnChange} 
+    key={value.id} 
+    isFocused={value.id == currentIdSelected} 
+    checkBoxChange={listItemCheckBoxOnChange}
+    onRemoveButton={onRemoveListItem}
+  />
+));
 export default PlanList;
 

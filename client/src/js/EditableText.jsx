@@ -62,7 +62,7 @@ class EditableText extends Component{
         className={"editable-text-edit " + this.props.className} 
         value={this.props.value} 
         onChange={this.props.onChange} 
-        onBlur={() => { this.setState({isEditing: false})} }
+        onBlur={() => {console.log("blur  called"); this.setState({isEditing: false})} }
         placeholder={this.props.placeholder}
         {...this.props.otherProps}
       />

@@ -38,7 +38,7 @@ class ListItem extends Component{
 
           <EditableText 
             onChange={(event) => this.props.onChange(this.props.item.id, event.target.value)}
-            key={this.props.item.value + "" + this.props.isFocused}
+            key={this.props.item.item + "" + this.props.isFocused}
             value={this.props.item.value}
             className=" plan-list-item-name" 
             label={ <div> {this.props.item.value} {this.props.isAddNewItem ? "Type here to add a new item." : "" }</div> }
