@@ -38,7 +38,11 @@ class PlanList extends Component{
   listItemOnChange = (id, textValue) => {
     let newList = this.state.listData;
     if(!(id in newList.items)){
-      newList.items[id] = {id: id};
+      newList.items[id] = {
+        id: id,
+        isComplete: false,
+        order:Object.keys(newList.items).length,
+      };
     }
     newList.items[id].value = textValue; 
 
@@ -124,7 +128,7 @@ class PlanList extends Component{
               <Button className="float-right" variant="danger" onClick={ () => this.props.deleteList(this.state.listData.id) } > X </Button>
             </Card.Title>
           </Card.Header>
-          <Card.Body>
+          <Card.Body className="list-body">
 
             {Object.keys(this.state.listData.items).map( (id) =>  
 

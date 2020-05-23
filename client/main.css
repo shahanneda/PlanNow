@@ -64,7 +64,7 @@ body{
   display: inline;
   width:100%;
   display:flex;
-  background: #333333;
+  background: #444444;
   margin: 10px 0px;
   padding: 10px;
   border: 1px solid transparent;
@@ -83,6 +83,7 @@ body{
   height: 100vh;
   overflow-y: scroll;
   overflow-x: hidden;
+
 
 }
 .editable-text-normal{
@@ -104,9 +105,10 @@ body{
 .list-title{
   display: inline-block;
 }
-
-
-
+.list-body{
+    /* background-color: #222222; */
+    /* border-top: 1px solid black; */
+}
 
 .list-item-remove-button-:hover {
   background-color: #4e4e4e;

@@ -118,9 +118,13 @@ function mongoSetUpDone(){
       }
       console.log(req.params.id);
       if(req.params.id in usr.lists){
+        let list = usr.lists[req.params.id];
+        let listItems = list.items;
+        list.items = getSortedListItems(listItems);
+        //TODO: store this so we dont have to sort it each time 
         res.send(JSON.stringify(
           {
-            list: usr.lists[req.params.id],
+            list: list,
           }
         ));
         return;
@@ -128,6 +132,17 @@ function mongoSetUpDone(){
 
     });
   });
+
+  function getSortedListItems(list){
+    let arrayOfItems = Object.values(list);
+    arrayOfItems.sort( (a,b) => (a.order - b.order) );
+    let itemsObj = arrayOfItems.reduce( (acc, cur) => { // this puts all the list items back in to the {"id" : value} format
+      acc[cur.id] = cur;
+      console.log(cur, acc);
+      return acc;
+    }, {} );
+    return itemsObj;
+  }
 
   app.get('/get/all-user-list-id/', (req, res) => {
     if(!("userId" in req.cookies)){

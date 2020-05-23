@@ -26,6 +26,7 @@ class ListItem extends Component{
     return (
       <div className="" >
         <div className=" plan-list-item" > {/* from-group */}
+          {this.props.item.order}
 
           <Form.Check 
             checked={this.props.item.isComplete ? true : false} 
