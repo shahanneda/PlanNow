@@ -4,16 +4,20 @@ const port = 7772;
 
 const mongo = require("mongodb");
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 let db = null;
 var cookieParser = require('cookie-parser')
+let auth = require("./auth.json");
 
 let usersCollection = null;
-MongoClient.connect(url, function(err, dbtemp) {
+let uri = "mongodb+srv://nedaChatAdmin:"+ auth.DB_PASSWORD + "@nedacluster-7z4i0.mongodb.net/NowPlan?retryWrites=true&w=majority";
 
+MongoClient.connect(uri, function(err, dbtemp) {
+  if(err){
+    console.log(err);
+  }
   var dbo = dbtemp.db("NowPlan");
 
   db = dbo;

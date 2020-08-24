@@ -112,15 +112,17 @@ class PlanList extends Component{
   onSortEnd = ({oldIndex, newIndex}, ) => {
     let itemsArray = Object.values(this.state.listData.items).sort((a,b) => (a.order - b.order));
     itemsArray[oldIndex].order = newIndex; // switch the order
-    itemsArray = arrayMove(itemsArray, oldIndex, newIndex);
+    itemsArray = arrayMove(itemsArray, oldIndex, newIndex); // this places the item where it belongs
 
     let oldList = this.state.listData;
     oldList.items = itemsArray.reduce( (acc, cur, index) => { // this converts it back to the object form  {id: item}
-      cur.order = index;
+      cur.order = index; // set the database order to be the one we just set
       acc[cur.id] = cur;
       return acc;
     }, {}); 
     this.setState({listData: oldList});
+
+    this.setData(); // update the server
     console.log(`Switched index ${oldIndex} with index ${newIndex}`);
   };
   render(){

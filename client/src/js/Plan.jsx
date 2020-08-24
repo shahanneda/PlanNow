@@ -18,6 +18,7 @@ class Plan extends Component{
       currentListIdSelected: "",
       listIds:{},
     };
+    this.updateData();
 
   }
   componentDidMount(){
