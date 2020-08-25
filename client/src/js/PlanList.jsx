@@ -32,7 +32,7 @@ class PlanList extends Component{
   updateData = () => {
     let url = this.props.url +"/get/list/" + encodeURIComponent(this.props.listId) + "/";
 
-    fetch(url, {credentials: 'include', headers:new Headers({ "userId":cookies.get("userId")}) }).then( res => res.json()).then( result => {
+    fetch(url, {credentials: 'include', headers:new Headers({ "userid":cookies.get("userId")}) }).then( res => res.json()).then( result => {
       this.setState({listData: result.list});
     });
   }
@@ -77,7 +77,7 @@ class PlanList extends Component{
       headers: new Headers({
         Authorization: this.props.auth,
         "Content-Type": "application/json",
-        "userId":cookies.get("userId")
+        "userid":cookies.get("userId")
 
         
         

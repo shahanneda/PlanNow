@@ -29,7 +29,7 @@ class NewList extends Component{
       headers: new Headers({
         Authorization: this.props.auth,
         "Content-Type": "application/json",
-        "userId":cookies.get("userId"),
+        "userid":cookies.get("userId"),
       }),
       body:JSON.stringify( {
         list: 
