@@ -115,7 +115,7 @@ function mongoSetUpDone(){
     }*/
 
     //TODO: add an auth check here
-    usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
+    usersCollection.findOne({_id: req.header.userId}, (err, usr) => {
       if(err || usr == null){
         console.log(err);
         return;
@@ -149,13 +149,13 @@ function mongoSetUpDone(){
   }
 
   app.get('/get/all-user-list-id/', (req, res) => {
-    if(!("userId" in req.cookies)){
+    if(!("userId" in req.headers)){
       //res.send("NO USERID!");
       return;
     }
 
     //TODO: add an auth check here
-    usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
+    usersCollection.findOne({_id: req.headers.userId}, (err, usr) => {
       if(err || usr == null){
         console.log(err);
         res.send(JSON.stringify(
@@ -185,10 +185,10 @@ function mongoSetUpDone(){
   app.post('/post/list/:id/', (req, res) => {
     let headers = JSON.stringify(req.headers);
     //TODO: add an auth check here
-    usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
+    usersCollection.findOne({_id: req.headers.userId}, (err, usr) => {
       let userLists = usr.lists;
       userLists[req.body.list.id] = req.body.list;
-      usersCollection.update({_id: req.cookies.userId}, { $set:{lists:userLists} } );
+      usersCollection.update({_id: req.headers.userId}, { $set:{lists:userLists} } );
     });
 
     res.send(JSON.stringify({
@@ -199,14 +199,14 @@ function mongoSetUpDone(){
     let headers = JSON.stringify(req.headers);
     console.log("got remove request for list with id" + req.params.id);
     //TODO: add an auth check here
-    usersCollection.findOne({_id: req.cookies.userId}, (err, usr) => {
+    usersCollection.findOne({_id: req.headers.userId}, (err, usr) => {
       if(err){
         return;
       }
 
       let userLists = usr.lists;
       delete userLists[req.params.id];
-      usersCollection.updateOne({_id: req.cookies.userId}, { $set:{lists:userLists} } );
+      usersCollection.updateOne({_id: req.headers.userId}, { $set:{lists:userLists} } );
     });
 
     res.send(JSON.stringify({

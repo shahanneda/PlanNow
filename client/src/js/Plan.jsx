@@ -53,9 +53,11 @@ class Plan extends Component{
   updateData = () => {
     fetch(this.props.url + "/get/all-user-list-id/", {
       method:'get',
+      credentials: 'include',
       headers: new Headers({
         Authorization: this.props.auth,
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        "userId":cookies.get("userId"),
       }),
 
     }).then( res => res.json()).then( res => {
@@ -78,6 +80,7 @@ class Plan extends Component{
       headers: new Headers({
         Authorization: this.props.auth,
         "Content-Type": "application/json",
+        "userId":cookies.get("userId"),
       }),
 
       body:JSON.stringify( {

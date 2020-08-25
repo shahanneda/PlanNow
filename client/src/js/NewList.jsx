@@ -25,9 +25,11 @@ class NewList extends Component{
 
     fetch(this.props.url +"/post/list/" + encodeURIComponent(listId) + "/", {
       method:'post',
+      credentials: 'include',
       headers: new Headers({
         Authorization: this.props.auth,
         "Content-Type": "application/json",
+        "userId":cookies.get("userId"),
       }),
       body:JSON.stringify( {
         list: 

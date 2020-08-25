@@ -29,7 +29,8 @@ class Login extends Component {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: event.target.value})
+      body: JSON.stringify({ id: event.target.value}),
+      credentials: 'include'
     };
     fetch(this.props.url + "/userExists", requestOptions)
       .then(response => {return response.json()})
@@ -46,7 +47,8 @@ class Login extends Component {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: this.state.username, password:this.state.password})
+      body: JSON.stringify({ id: this.state.username, password:this.state.password}),
+      credentials: 'include'
     };
     fetch(this.props.url + "/loginUser", requestOptions).then(response => response.json()).then(response => {
       console.log(response);

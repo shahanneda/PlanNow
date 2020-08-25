@@ -26,8 +26,10 @@ class CreateAccount extends Component {
 
                 const requestOptions = {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                  headers: { 'Content-Type': 'application/json'  },
+                        credentials: 'include',
                         body: JSON.stringify({ id: event.target.value})
+
                 };
                 fetch(this.props.url + "/userExists", requestOptions)
                         .then(response => {return response.json()})
