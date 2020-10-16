@@ -7,3 +7,4 @@
 - BCrypt for password hashing
 - React Js for the front end
 - React Router for Routing
+- Hosted on amazon AWS EC2 Instance
