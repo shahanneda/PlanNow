@@ -6,7 +6,7 @@ const wrapper = document.getElementById("container");
 
 ReactDOM.render(
         <div>
-          <NowPlan url="http://shahanneda.xyz/plannow"/>
+          <NowPlan url="https://shahanneda.xyz/plannow"/>
         </div>
 , wrapper);
 
